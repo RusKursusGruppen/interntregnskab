@@ -28,12 +28,13 @@ class Session(object):
     def load_session(self):
         try:
             self.data = sessions[self.id]
-        except IndexError:
+        except KeyError:
             raise InvalidCookieException()
 
     def new_session(self):
         self.id = uuid4().hex
         self.data = dict()
+        sessions[self.id] = self
 
     def get(self, *args, **kwargs):
         self.init()

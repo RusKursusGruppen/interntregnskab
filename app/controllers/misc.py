@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 from app.utils.misc import template_response, local, urlfor, redirect
-
-from app.document import document, set_document
-from app.model.document import Document
-from app.utils.currency import parsenumber, formatcurrency
-
-import json
+from app.model.user import authenticate
 
 def error():
     template_response("/error/error.mako")
@@ -16,51 +11,40 @@ def notfound():
     template_response("/error/notfound.mako")
 
 
-def cashlog():
-    log = ((t.date, t.description, t.amount) for t in document().cash_in_hand.transactions)
-    template_response("/page/cash_log.mako",
-        log = log,
-        balance = document().cash_in_hand.get_balance()
+def login_form():
+    error_length = local.request.args.get("length") != None
+    error_invalid = local.request.args.get("invalid") != None
+    
+
+    user = local.session.get("user")
+
+    if user != None:
+        return
+
+    template_response("/page/login.mako",
+        error_length = error_length,
+        error_invalid = error_invalid
     )
 
 
-def adjust_cash():
-    amount = parsenumber(local.request.form.get("amount", u""))
+def login_do():
+    error= {}
 
-    if amount != None and amount != 0:
-        document().cash_in_hand.add_transaction("Justerede kassebeholdning", amount)
+    username = local.request.form.get("username", u"")
+    password = local.request.form.get("password", u"")
+    
+    if len(username) == 0 or len(password) == 0:
+        error["length"] = "yes"
+    
+    if len(error) == 0 and not authenticate(username, password):
+        error["invalid"] = "yes"
+    
+    if len(error) == 0:
+        local.session["user"] = username
+        return
 
-        amount_str = formatcurrency(abs(amount))
-        if amount < 0:
-            document().save("Tog %s fra kassen." % (amount_str,))
-        else:
-            document().save("Lagde %s i kassen." % (amount_str,))
-    redirect("misc.cashlog")
-
-
-def transfer():
-    template_response("/page/transfer.mako")
-
-
-def import_file():
-    data = json.load(local.request.files.get("savefile"))
-    new_doc = Document.create(data)
-    new_doc.save("Importerede dokument", "savedir/save.beer")
-    set_document(new_doc)
-    redirect("version.browse")
-
-
-def enter_title_form():
-    template_response("/page/enter_title.mako")
-
-
-def enter_title_do():
-    title = local.request.form.get("title", u"")
-
-    if len(title) == 0:
-        return redirect("misc.enter_title_form")
-
-    document().title = title
-    document().save(u'Ændrede titel til "%s"' % (title,))
-
-    redirect("index.index")
+    redirect(
+        "misc.login_form",
+        **error
+    )
+    

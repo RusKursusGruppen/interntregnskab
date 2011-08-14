@@ -11,6 +11,6 @@ def new_do():
     creditor = local.request.form.get("creditor")
     amount = local.request.form.get("amount")
 
-    template_response("/page/test.mako", test=(members, creditor, amount)
+    template_response("/page/test.mako", test=(members, creditor, amount))
     return
     redirect("index.index")

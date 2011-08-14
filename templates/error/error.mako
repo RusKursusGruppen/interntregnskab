@@ -1,6 +1,6 @@
 <%inherit file="/main.mako" />
 <%
-    breadcrumbs = ()
+    self.breadcrumbs = ()
 %>
 <h1>
     Der skete en fejl.

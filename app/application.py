@@ -1,28 +1,20 @@
 # -*- coding: utf-8 -*-
-from os.path import join
-
-from werkzeug import Request, Response, SharedDataMiddleware
-from werkzeug.exceptions import NotFound
-
-from app.mapping import url_map, endpoints
-from app.utils.misc import local, path
-from app.utils.session import Session
-from app.model.document import Document
-from app.document import document
-
 
 class Application(object):
     def __init__(self, debug):
+        from werkzeug import SharedDataMiddleware
+        from app.utils.misc import path
         self.debug = debug
         self.dispatch = SharedDataMiddleware(self.dispatch, {"/static": path["static"]})
-        try:
-            self.document = Document.load("savedir/save.beer")
-        except IOError:
-            self.document = Document()
-            self.document.save(filepath="savedir/save.beer", comment=u"New file")
 
     def dispatch(self, environ, start_response):
         try:
+            from app.utils.misc import local
+            from werkzeug import Request, Response
+            from app.mapping import url_map, endpoints
+            from app.utils.session import Session
+            from werkzeug.exceptions import NotFound
+
             local.request = Request(environ)
             local.response = Response()
             local.session = Session(local.request.cookies.get("session"))
@@ -34,7 +26,7 @@ class Application(object):
                     endpoint = "notfound"
                     params = {}
 
-                if not endpoint in ("notfound", "login.authenticate") and local.session.get("user") == None:
+                if not endpoint in ("notfound", "login.authenticate") and local.session.get("user") is None:
                     endpoint = "login.form"
 
                 local.endpoint = endpoint
@@ -54,5 +46,6 @@ class Application(object):
         return response(environ, start_response)
 
     def __call__(self, environ, start_response):
+        from app.utils.misc import local
         local.application = self
         return self.dispatch(environ, start_response)

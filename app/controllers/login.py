@@ -6,12 +6,6 @@ def form():
     error_length = local.request.args.get("length") != None
     error_invalid = local.request.args.get("invalid") != None
     
-
-    user = local.session.get("user")
-
-    if user != None:
-        return
-
     template_response("/page/login.mako",
         error_length = error_length,
         error_invalid = error_invalid

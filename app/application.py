@@ -34,8 +34,8 @@ class Application(object):
                     endpoint = "notfound"
                     params = {}
 
-                if not endpoint in ("notfound", "misc.login_do") and local.session.get("user") == None:
-                    endpoint = "misc.login_form"
+                if not endpoint in ("notfound", "login.authenticate") and local.session.get("user") == None:
+                    endpoint = "login.form"
 
                 local.endpoint = endpoint
 

@@ -100,33 +100,12 @@ input.error {
 }
 
 #nav_home a {
-    background-image: url(/static/images/house.png);
-}
-#nav_usage a {
-    background-image: url(/static/images/pencil.png);
-}
-#nav_products a {
-    background-image: url(/static/images/drink.png);
-}
-#nav_accounts a {
     background-image: url(/static/images/group.png);
 }
-#nav_cash a {
-    background-image: url(/static/images/coins.png);
-}
-#nav_versions a {
-    background-image: url(/static/images/time.png);
-}
-#nav_import a {
-    background-image: url(/static/images/database_refresh.png);
-}
 
-#statustable {
+#entriestable {
     width:100%;
 }
-#statustable td:nth-child(1) {
+#entriestable td:nth-child(5), #entriestable td:nth-child(6) {
     white-space: nowrap;
-}
-#statustable td:nth-child(2) {
-    width:100%;
 }

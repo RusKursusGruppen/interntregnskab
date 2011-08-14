@@ -6,7 +6,7 @@
     <script type="text/javascript" src="/static/javascript/jquery.js"></script>
 </head>
 <body id="enter_title">
-<form action=${escattr(urlfor("misc.login_do"))} method="post" id="enter_title_form">
+<form action=${escattr(urlfor("login.authenticate"))} method="post" id="enter_title_form">
     <h1>Login</h1>
     <p>
         Velkommen til <strong>internt regnskab</strong>. Log ind

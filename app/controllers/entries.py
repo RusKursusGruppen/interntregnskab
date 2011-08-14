@@ -7,7 +7,7 @@ def new_form():
 
 
 def new_do():
-    members = [x[7:] for x in local.request.form if x.startswith("member_")]
+    members = [(x[7:],y) for x,y in local.request.form.items() if x.startswith("member_")]
     creditor = local.request.form.get("creditor")
     amount = local.request.form.get("amount")
 

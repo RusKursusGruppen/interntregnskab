@@ -37,6 +37,7 @@ class Application(object):
                     raise
                 endpoints["error"]()
             response = local.response
+            local.session.save()
             local.session.set_cookie(local.response)
         except:
             if self.debug:

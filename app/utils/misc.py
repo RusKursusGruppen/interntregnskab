@@ -8,7 +8,10 @@ import werkzeug.routing
 import werkzeug.utils
 import mako.lookup
 
+import couchdb
+
 import app.widget
+from app.config.generated import config
 
 path = {}
 path["root"] = os.path.join(os.path.dirname(__file__), "..")
@@ -18,6 +21,9 @@ path["templates"] = os.path.join(path["root"], "../templates")
 local = werkzeug.Local()
 local_manager = werkzeug.LocalManager([local])
 application = local("application")
+
+def db():
+    return couchdb.Server(config["couchdb_server_url"])[config["couchdb_db"]]
 
 template_lookup = mako.lookup.TemplateLookup(
     directories=[path["templates"]],

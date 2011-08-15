@@ -1,2 +1,2 @@
 *.pyc
-savedir
+app/config/generated.py

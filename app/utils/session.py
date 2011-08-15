@@ -43,7 +43,8 @@ class Session(object):
         self.doc = {"type": "session", "data":{}, "date": dateutils.totuple(self.date)}
     
     def save(self):
-        self.id, self.doc["_rev"] = db().save(self.doc)
+        if self.is_init:
+            self.id, self.doc["_rev"] = db().save(self.doc)
     
     def get(self, *args, **kwargs):
         self.init()

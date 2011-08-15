@@ -3,7 +3,6 @@
     self.breadcrumbs = (
         (urlfor("entries.new_form"), "Ny indtastning"),
     )
-    members = ("bjorn", "lund", "jenny", "emil", "sorend")
 %>
 <h1>Ny indtastning</h1>
 <form method="post" action=${escattr(urlfor("entries.new_do"))}>

@@ -2,14 +2,26 @@
 # -*- coding: utf-8 -*-
 import os.path
 import sys
+import grp
+
 sys.path[0] = os.path.join(os.path.dirname(__file__), "..")
 
-def user_query(itemname, converter, default=None):
+def togroups(string):
+    groups = string.split(",")
+    groups = (x.strip() for x in groups)
+    groups = filter(len, groups)
+
+    return groups
+
+def repgroups(groups):
+    return ", ".join(sorted(groups))
+
+def user_query(itemname, converter, defaultrep, default=None):
     while True:
         if default == None:
             answer = raw_input("Indtast %s: " % (itemname,))
         else:
-            answer = raw_input("Indtast %s [%s]: " % (itemname, default))
+            answer = raw_input("Indtast %s [%s]: " % (itemname, defaultrep(default)))
             if answer == "":
                 return default
         try:
@@ -26,11 +38,12 @@ def prompt_update_config():
         from app.config.default import config
         config = config()
 
-    for name, key, converter in [
-        ("CouchDB Server URL", "couchdb_server_url", str),
-        ("CouchDB db", "couchdb_db", str),
+    for name, key, converter, repr_ in [
+        ("CouchDB Server URL", "couchdb_server_url", str, str),
+        ("CouchDB db", "couchdb_db", str, str),
+        ("Valid unix groups (comma-seperated)", "groups", togroups, repgroups),
     ]:
-        config[key] = user_query(name, converter, config[key])
+        config[key] = user_query(name, converter, repr_, config[key])
     return config
 
 def write_config(config):

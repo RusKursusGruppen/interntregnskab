@@ -5,5 +5,5 @@
 %>
 <h1>Test side</h1>
 <pre>
-    ${escape(pformat(test))}
+${escape(pformat(test))}
 </pre>

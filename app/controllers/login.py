@@ -25,7 +25,9 @@ def authenticate():
         error["invalid"] = "yes"
     
     if len(error) == 0:
+        local.session["group"] = user.getgroup(username)
         local.session["user"] = username
+       
         redirect("index.index")
         return
 

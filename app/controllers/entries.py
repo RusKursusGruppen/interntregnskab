@@ -14,13 +14,12 @@ def new_form():
 def new_do():
     creditor = local.request.form.get("creditor")
     amount = local.request.form.get("amount", "")
+    amount = parsenumber(amount)
     
-    if amount == "":
+    if amount == None:
         amount = 0
-    else:
-        amount = parsenumber(amount)
 
-    debtors = {}
+    debtors = []
     for name, weight in local.request.form.items():
         if not name.startswith("member_"):
             continue
@@ -31,7 +30,7 @@ def new_do():
         if weight == 0:
             continue
 
-        debtors[name] = weight
+        debtors.append([name, weight])
     
     author = local.session.get("user")
     group = local.session.get("group")

@@ -15,7 +15,7 @@ def add(author, group, amount, creditor, debtors):
         raise PermissionError()
 
     for username in debtors:
-        if not username in members:
+        if not username[0] in members:
             raise PermissionError()
     
     db().save({

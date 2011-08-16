@@ -3,6 +3,7 @@
     header = u"<!-- " + u"Bjørn Uhre Arnholtz "*1000 + u"-->"
     navbar_links = (
         ("index.index", u"Status", "home"),
+        ("login.chpasswd_form", u"Skift løsen", "passwd"),
     )
 %>
 <%
@@ -10,7 +11,7 @@
 %>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Internt regnskab</title>
+    <title>${escape(widget.currentgroup())} - Internt regnskab</title>
     <link rel="stylesheet" href="/static/css/yui.css" type="text/css" />
     <link rel="stylesheet" href="/static/css/main.css" type="text/css" />
     <script type="text/javascript" src="/static/javascript/jquery.js"></script>
@@ -30,7 +31,7 @@
 
 <div class="yui3-u-4-5" id="content_container">
 <nav class="yui3-u-1" id="breadcrumbs">
-%for n, (url, title) in enumerate(((urlfor("index.index"), u"Status"),) + next.breadcrumbs):
+%for n, (url, title) in enumerate(((urlfor("index.index"), widget.currentuser() + "." + widget.currentgroup()),) + next.breadcrumbs):
 %if n > 0:
 →
 %endif

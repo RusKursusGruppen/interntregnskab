@@ -10,6 +10,9 @@ endpoints = {
     "index.index": app.controllers.index.index,
     "login.form": app.controllers.login.form,
     "login.authenticate": app.controllers.login.authenticate,
+    "login.chpasswd_form": app.controllers.login.chpasswd_form,
+    "login.chpasswd_do": app.controllers.login.chpasswd_do,
+    "login.chpasswd_confirm": app.controllers.login.chpasswd_confirm,
     "entries.new_form": app.controllers.entries.new_form,
     "entries.new_do": app.controllers.entries.new_do,
     "notfound": app.controllers.misc.notfound,
@@ -23,7 +26,10 @@ for method, path, endpoint in [
         ("GET", "/login", "login.form"),
         ("POST", "/login_do", "login.authenticate"),
         ("GET", "/new", "entries.new_form"),
-        ("POST", "/new/do", "entries.new_do")
+        ("POST", "/new/do", "entries.new_do"),
+        ("GET", "/chpasswd", "login.chpasswd_form"),
+        ("GET", "/chpasswd/confirm", "login.chpasswd_confirm"),
+        ("POST", "/chpasswd/do", "login.chpasswd_do")
     ]:
     rule = werkzeug.routing.Rule(path, methods=[method], endpoint=endpoint)
     url_map.add(rule)

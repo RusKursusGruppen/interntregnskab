@@ -6,16 +6,6 @@ import grp
 
 sys.path[0] = os.path.join(os.path.dirname(__file__), "..")
 
-def togroups(string):
-    groups = string.split(",")
-    groups = (x.strip() for x in groups)
-    groups = filter(len, groups)
-
-    return groups
-
-def repgroups(groups):
-    return ", ".join(sorted(groups))
-
 def user_query(itemname, converter, defaultrep, default=None):
     while True:
         if default == None:
@@ -41,7 +31,6 @@ def prompt_update_config():
     for name, key, converter, repr_ in [
         ("CouchDB Server URL", "couchdb_server_url", str, str),
         ("CouchDB db", "couchdb_db", str, str),
-        ("Valid unix groups (comma-seperated)", "groups", togroups, repgroups),
     ]:
         config[key] = user_query(name, converter, repr_, config[key])
     return config

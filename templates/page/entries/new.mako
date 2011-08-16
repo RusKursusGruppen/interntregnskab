@@ -19,6 +19,10 @@
         </td>
     </tr>
     <tr>
+        <td><label for="description">Beskrivelse</label></td>
+        <td><input type="text" id="description" name="description"/></td>
+    </tr>
+    <tr>
         <td><label for="amount">Beløb</label></td>
         <td><input type="text" id="amount" name="amount"/></td>
     </tr>

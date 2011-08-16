@@ -13,7 +13,7 @@ function(doc) {
     
     var remaining_amount = doc.amount;
 
-    emit([doc.creditor, doc.date], doc.amount);
+    emit([doc.group, doc.creditor, doc.date], doc.amount);
     doc.debtors.forEach(function(x){
         name = x[0];
         weight = x[1];
@@ -23,6 +23,6 @@ function(doc) {
         remaining_amount -= amount;
         weight_total -= weight;
 
-        emit([name, doc.date], -amount);
+        emit([doc.group, name, doc.date], -amount);
     });
 }

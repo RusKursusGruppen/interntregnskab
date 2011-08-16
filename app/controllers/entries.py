@@ -12,8 +12,9 @@ def new_form():
 
 
 def new_do():
-    creditor = local.request.form.get("creditor")
-    amount = local.request.form.get("amount", "")
+    description = local.request.form.get("description", u"")
+    creditor = local.request.form.get("creditor", u"")
+    amount = local.request.form.get("amount", u"")
     amount = parsenumber(amount)
     
     if amount == None:
@@ -32,11 +33,9 @@ def new_do():
 
         debtors.append([name, weight])
     
-    author = local.session.get("user")
+    username = local.session.get("user")
     group = local.session.get("group")
     
-    entries.add(author, group, amount, creditor, debtors)
+    entries.add(username, group, description, amount, creditor, debtors)
 
-    template_response("/page/test.mako", test=(debtors, creditor, amount))
-    return
     redirect("index.index")

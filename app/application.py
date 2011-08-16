@@ -26,7 +26,7 @@ class Application(object):
                     endpoint = "notfound"
                     params = {}
 
-                if not endpoint in ("notfound", "login.authenticate") and local.session.get("user") is None:
+                if not endpoint in ("notfound", "login.authenticate") and local.session.get("uid") is None:
                     endpoint = "login.form"
 
                 local.endpoint = endpoint

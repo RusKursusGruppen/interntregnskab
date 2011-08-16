@@ -5,7 +5,7 @@ import app.model.entries as entries
 import app.model.user as user
 
 def new_form():
-    members = user.getmembers(local.session.get("group"))
+    members = list(user.getmembers(local.session.get("uid")))
     template_response("/page/entries/new.mako",
         members=members
     )
@@ -33,9 +33,8 @@ def new_do():
 
         debtors.append([name, weight])
     
-    username = local.session.get("user")
-    group = local.session.get("group")
-    
+    username = local.session.get("uid")
+    group = user.getgroup(local.session.get("uid"))
     entries.add(username, group, description, amount, creditor, debtors)
 
     redirect("index.index")

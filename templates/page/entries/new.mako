@@ -12,8 +12,8 @@
         <td><label for="creditor">Ulækker</label></td>
         <td>
             <select name="creditor" id="creditor">
-%for name in members:
-                <option value=${escattr(name)}>${escape(name)}</option>
+%for uid, name in members:
+                <option value=${escattr(uid)}>${escape(name)}</option>
 %endfor
             </select>
         </td>
@@ -37,8 +37,8 @@
         </tr>
     </thead>
     <tbody>
-%for name in members:
-<% nameattr = escattr("member_" + name) %>
+%for uid, name in members:
+<% nameattr = escattr("member_" + uid) %>
         <tr>
             <td><label for=${nameattr}>${escape(name)}</label></td>
             <td><input type="text" name=${nameattr} id=${nameattr} value="0"/></td>

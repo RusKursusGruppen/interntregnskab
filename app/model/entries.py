@@ -1,35 +1,34 @@
 from app.utils.misc import db
 import app.utils.date as dateutils
 import app.model.user as user
-import grp
-
 
 class PermissionError(Exception): pass
 
-def add(username, group, description, amount, creditor, debtors):
+def add(uid, group, description, amount, creditor, debtors):
     date = dateutils.totuple(dateutils.now())
     
-    members = set(grp.getgrnam(group).gr_mem)
-    
+    members = set(x[0] for x in user.getmembers(uid))
+
     if not creditor in members:
         raise PermissionError()
 
     for debtor in debtors:
         if not debtor[0] in members:
             raise PermissionError()
-    
+
     db().save({
         "type": "entry",
-        "date": date,
-        "description": description,
         "amount": amount,
-        "username": username,
-        "group": group,
         "creditor": creditor,
+        "date": date,
         "debtors": debtors,
+        "description": description,
+        "group": group,
+        "uid": uid,
     })
 
-def getbalances(group):
+def getbalances(uid):
+    group = user.getgroup(uid)
     q = db().view("entry/balances",
         startkey=[group],
         endkey=[group+u"\ufff0"],
@@ -39,24 +38,31 @@ def getbalances(group):
     )
     
     for x in q:
-        yield x.key[1], x.value
+        yield user.getname(x.key[1]), x.value
 
-def getgroup(group):
+def getgroup(uid):
+    group = user.getgroup(uid)
     q = db().view("entry/groups",
-        startkey=[group],
-        endkey=[group+u"\ufff0"],
+        startkey=[group+u"\ufff0"],
+        endkey=[group],
         include_docs=True,
+        descending=True
     )
 
     for x in q:
         doc = x.doc
+        username = user.getname(doc["uid"])
+        debtors = doc["debtors"]
+        debtors = dict((user.getname(x),y) for x,y in debtors)
+        
+        creditor = user.getname(doc["creditor"])
 
         yield {
             "id": doc.id,
             "amount": doc["amount"],
-            "creditor": doc["creditor"],
+            "creditor": creditor,
             "date": dateutils.fromtuple(doc["date"]),
             "description": doc["description"],
-            "debtors": dict(doc["debtors"]),
-            "username": doc["username"],
+            "debtors": debtors,
+            "username": username,
         }

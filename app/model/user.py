@@ -1,24 +1,35 @@
 # -*- coding: utf-8 -*-
-import app.utils.pam as pam
-import grp
+from app.utils.misc import db
+import app.utils.date as dateutils
 from app.config.generated import config
+from hashlib import sha224
+
 
 def authenticate(username, password):
-    if getgroup(username) == None:
-        return False
-    
-    if not pam.authenticate(username, password):
-        return False
+    password = sha224(password).hexdigest()
+    for x in db().view("user/auth", key=[username, password]):
+        return x.id
 
-    return True
+def add(username, group, password):
+    password = sha224(password).hexdigest()
+    db().save({
+        "type": "user",
+        "group": group,
+        "password": password,
+        "username": username,
+        "date_added": dateutils.nowtuple()
+    })
 
-def getgroup(username):
-    for group in config["groups"]:
-        if username in getmembers(group):
-            return group
+def getname(uid):
+   return db()[uid]["username"]
 
-def getmembers(group):
-    try:
-        return grp.getgrnam(group).gr_mem
-    except KeyError:
-        raise Exception("Group %s not found on system" % (repr(group),))
+def getgroup(uid):
+    return db()[uid]["group"]
+
+def getmembers(uid):
+    group = getgroup(uid)
+    q = db().view("user/group", startkey=[group], endkey=[group+u"\fff0"], include_docs=True)
+
+    for x in q:
+        doc = x.doc
+        yield doc.id, doc["username"]

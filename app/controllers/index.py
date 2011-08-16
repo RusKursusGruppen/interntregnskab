@@ -4,9 +4,9 @@ import app.model.entries as entries
 
 
 def index():
-    derp = entries.getgroup(local.session.get("group"))
+    derp = entries.getgroup(local.session.get("uid"))
 
-    herp = entries.getbalances(local.session.get("group"))
+    herp = entries.getbalances(local.session.get("uid"))
     
     template_response("/page/index.mako",
         balances = herp,

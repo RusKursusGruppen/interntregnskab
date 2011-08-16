@@ -13,7 +13,7 @@ def form():
 
 
 def authenticate():
-    error= {}
+    error = {}
 
     username = local.request.form.get("username", u"")
     password = local.request.form.get("password", u"")
@@ -21,12 +21,13 @@ def authenticate():
     if len(username) == 0 or len(password) == 0:
         error["length"] = "yes"
     
-    if len(error) == 0 and not user.authenticate(username, password):
-        error["invalid"] = "yes"
+    if len(error) == 0:
+        uid = user.authenticate(username, password)
+        if uid is None:
+            error["invalid"] = "yes"
     
     if len(error) == 0:
-        local.session["group"] = user.getgroup(username)
-        local.session["user"] = username
+        local.session["uid"] = uid
        
         redirect("index.index")
         return

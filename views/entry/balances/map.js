@@ -1,6 +1,6 @@
 function(doc) {
     if(doc.type!=="entry") return;
-    
+    if(doc.deletedby!==undefined && doc.deletedby!==null) return;
     
     var weight_total = 0;
 

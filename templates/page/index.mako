@@ -39,6 +39,7 @@
             <th>Ulækker</th>
             <th>Beløb</th>
             <th>Skyldnere</th>
+            <th>Slet</th>
         </tr>
     </thead>
     <tbody>
@@ -46,7 +47,11 @@
 <%
     delta = entry["date"] - dateutils.now()
 %>
+%if entry["deletedby"] is None:
         <tr>
+%else:
+        <tr style="color:gray;">
+%endif
             <td>${dateutils.formatdelta(delta)}</td>
             <td>${escape(entry["username"])}</td>
             <td>${escape(entry["description"])}</td>
@@ -59,6 +64,13 @@
 %endif
                 ${escape(debtor)}: ${weight}
 %endfor
+            </td>
+            <td>
+%if entry["deletedby"] is None:
+    <a href=${escattr(urlfor("entries.delete", id=entry["id"]))}>[Slet]</a>
+%else:
+    Slettet af ${escape(entry["deletedby"])}
+%endif
             </td>
         </tr>
 %endfor

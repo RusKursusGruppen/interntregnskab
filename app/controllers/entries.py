@@ -38,3 +38,8 @@ def new_do():
     entries.add(username, group, description, amount, creditor, debtors)
 
     redirect("index.index")
+
+
+def delete(id):
+    entries.delete(local.session.get("uid"), id)
+    redirect("index.index")

@@ -25,7 +25,19 @@ def add(uid, group, description, amount, creditor, debtors):
         "description": description,
         "group": group,
         "uid": uid,
+        "deletedby":None,
     })
+
+def delete(uid, id_):
+    user = db()[uid]
+    entry = db()[id_]
+
+    if entry["group"] != user["group"]:
+        raise PermissionError()
+    
+    entry["deletedby"] = uid
+
+    db().save(entry)
 
 def getbalances(uid):
     group = user.getgroup(uid)
@@ -52,6 +64,9 @@ def getgroup(uid):
     for x in q:
         doc = x.doc
         username = user.getname(doc["uid"])
+        deletedby = doc.get("deletedby")
+        deletedby = deletedby and user.getname(deletedby)
+        user.getname(doc["uid"])
         debtors = doc["debtors"]
         debtors = dict((user.getname(x),y) for x,y in debtors)
         
@@ -65,4 +80,5 @@ def getgroup(uid):
             "description": doc["description"],
             "debtors": debtors,
             "username": username,
+            "deletedby": deletedby,
         }

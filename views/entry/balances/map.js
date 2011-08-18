@@ -1,4 +1,8 @@
 function(doc) {
+    if(doc.type==="user"){
+        emit([doc.group, doc._id, doc.date_added], 0);
+        return;
+    }
     if(doc.type!=="entry") return;
     if(doc.deletedby!==undefined && doc.deletedby!==null) return;
     
@@ -25,4 +29,5 @@ function(doc) {
 
         emit([doc.group, name, doc.date], -amount);
     });
+
 }

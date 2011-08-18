@@ -1,10 +1,6 @@
 <%inherit file="/html5.mako"/>
 <%!
     header = u"<!-- " + u"Bjørn Uhre Arnholtz "*1000 + u"-->"
-    navbar_links = (
-        ("index.index", u"Status", "home"),
-        ("login.chpasswd_form", u"Skift løsen", "passwd"),
-    )
 %>
 <%
     content = capture(next.body)
@@ -21,15 +17,7 @@
 <header id="header">Internt regnskab</header>
 <div id="page" class="yui3-g">
 
-<nav class="yui3-u-1-5" id="nav_container">
-    <ul id="nav">
-%for target, text, id in navbar_links:
-        <li id=${escattr("nav_"+id)}><a href=${escattr(urlfor(target))}>${escape(text)}</a></li>
-%endfor
-    </ul>
-</nav>
-
-<div class="yui3-u-4-5" id="content_container">
+<div class="yui3-u-1" id="content_container">
 <nav class="yui3-u-1" id="breadcrumbs">
 %for n, (url, title) in enumerate(((urlfor("index.index"), widget.currentuser() + "." + widget.currentgroup()),) + next.breadcrumbs):
 %if n > 0:

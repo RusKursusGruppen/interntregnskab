@@ -11,15 +11,13 @@ html {
 
 #header {
     font-size: 300%;
-    margin: 50px auto 0;
-    padding-left:1em;
-    width: 960px;
+    margin: 20px 0 3px 0;
+    padding-left:.5em;
 }
 
 #page {
     border: 1px solid #000;
-    margin: 0 auto 200px auto;
-    width: 940px;
+    margin: 0 10px 200px 10px;
 }
 #nav_container {
     background: url("/static/images/nav-gradient.png") repeat-x;

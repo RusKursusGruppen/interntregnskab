@@ -7,8 +7,10 @@
     self.breadcrumbs = ()
 %>
 <h1>Velkommen til internt regnskab</h1>
-
 <h3>Status</h3>
+<p>
+    <a href=${escattr(urlfor("login.chpasswd_form"))}>Klik her for at skifte dit løsen</a>
+</p>
 <table>
     <thead>
         <tr>

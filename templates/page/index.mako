@@ -46,15 +46,12 @@
     </thead>
     <tbody>
 %for entry in entries:
-<%
-    delta = entry["date"] - dateutils.now()
-%>
 %if entry["deletedby"] is None:
         <tr>
 %else:
         <tr style="color:gray;">
 %endif
-            <td>${dateutils.formatdelta(delta)}</td>
+            <td>${widget.timedelta(entry["date"])}</td>
             <td>${escape(entry["username"])}</td>
             <td>${escape(entry["description"])}</td>
             <td>${escape(entry["creditor"])}</td>

@@ -22,8 +22,9 @@ local = werkzeug.Local()
 local_manager = werkzeug.LocalManager([local])
 application = local("application")
 
+db_ = couchdb.Server(config["couchdb_server_url"])[config["couchdb_db"]]
 def db():
-    return couchdb.Server(config["couchdb_server_url"])[config["couchdb_db"]]
+    return db_
 
 template_lookup = mako.lookup.TemplateLookup(
     directories=[path["templates"]],

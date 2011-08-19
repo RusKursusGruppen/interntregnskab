@@ -13,7 +13,11 @@
         <td>
             <select name="creditor" id="creditor">
 %for uid, name in members:
+%if name == widget.currentuser():
+                <option value=${escattr(uid)} selected="selected">${escape(name)}</option>
+%else:
                 <option value=${escattr(uid)}>${escape(name)}</option>
+%endif
 %endfor
             </select>
         </td>

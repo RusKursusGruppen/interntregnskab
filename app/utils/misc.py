@@ -30,7 +30,8 @@ template_lookup = mako.lookup.TemplateLookup(
     directories=[path["templates"]],
     input_encoding="utf-8",
     output_encoding="utf-8",
-    strict_undefined=True
+    strict_undefined=True,
+    module_directory='/tmp/mako_modules',
 )
 
 

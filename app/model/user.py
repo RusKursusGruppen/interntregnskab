@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from app.utils.misc import db
+from app.utils.misc import db, local
 import app.utils.date as dateutils
 from app.config.generated import config
 from hashlib import sha224
-
 
 def authenticate(username, password):
     password = sha224(password).hexdigest()
@@ -32,9 +31,13 @@ def changepassword(uid, password):
     user["password"] = password
     db().save(user)
     
-
 def getname(uid):
-   return db()[uid]["username"]
+    try:
+        return local.cache[("uid-name", uid)]
+    except KeyError:
+        name = db()[uid]["username"]
+        local.cache[("uid-name", uid)] = name
+        return name
 
 def getgroup(uid):
     return db()[uid]["group"]

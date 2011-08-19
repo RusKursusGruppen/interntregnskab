@@ -1,7 +1,4 @@
 <%inherit file="/html5.mako"/>
-<%!
-    header = u"<!-- " + u"Bjørn Uhre Arnholtz "*1000 + u"-->"
-%>
 <%
     content = capture(next.body)
 %>
@@ -32,4 +29,3 @@
 </div>
 </div>
 </body>
-${header}

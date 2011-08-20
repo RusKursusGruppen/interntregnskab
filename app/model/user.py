@@ -32,12 +32,11 @@ def changepassword(uid, password):
     db().save(user)
     
 def getname(uid):
-    try:
-        return local.cache[("uid-name", uid)]
-    except KeyError:
+    name = local.cache.get(("uid-name",uid))
+    if name is None:
         name = db()[uid]["username"]
         local.cache[("uid-name", uid)] = name
-        return name
+    return name
 
 def getgroup(uid):
     return db()[uid]["group"]

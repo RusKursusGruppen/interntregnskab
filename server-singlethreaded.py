@@ -1,11 +1,7 @@
 #!/usr/bin/python2 -B
 # -*- coding: utf-8 -*-
-import sys
-from os.path import dirname, join
+import env
 
-# Prepend 3rd-party to path
-sys.path[0] = join(dirname(__file__))
-sys.path.insert(0, join(sys.path[0], "3rd-party"))
 
 from app.application import Application
 from wsgiref.simple_server import make_server

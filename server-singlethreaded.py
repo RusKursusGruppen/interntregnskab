@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import env
 
-
 from app.application import Application
 from wsgiref.simple_server import make_server
 

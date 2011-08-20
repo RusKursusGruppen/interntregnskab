@@ -1,7 +1,7 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
 import env
-from cherrypy import wsgiserver
+import wsgiserver
 
 from app.application import Application
 

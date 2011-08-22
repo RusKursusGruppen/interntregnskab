@@ -11,7 +11,7 @@
 <p>
     <a href=${escattr(urlfor("login.chpasswd_form"))}>Klik her for at skifte dit løsen</a>
 </p>
-<table>
+<table id="balancetable">
     <thead>
         <tr>
             <th>Navn</th>

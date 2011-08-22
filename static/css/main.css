@@ -107,3 +107,6 @@ input.error {
 #entriestable td:nth-child(5), #entriestable td:nth-child(6) {
     white-space: nowrap;
 }
+#balancetable td:nth-child(2) {
+    text-align:right;
+}

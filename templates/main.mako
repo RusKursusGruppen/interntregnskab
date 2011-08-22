@@ -16,6 +16,7 @@
 
 <div class="yui3-u-1" id="content_container">
 <nav class="yui3-u-1" id="breadcrumbs">
+<a href=${escattr(urlfor("login.logout"))}>Log ud</a> | 
 %for n, (url, title) in enumerate(((urlfor("index.index"), widget.currentuser() + "." + widget.currentgroup()),) + next.breadcrumbs):
 %if n > 0:
 →

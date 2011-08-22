@@ -16,7 +16,6 @@ class Application(object):
 
     def dispatch(self, environ, start_response):
         try:
-
             local.request = Request(environ)
             local.response = Response()
             local.session = Session(local.request.cookies.get("session"), 600)

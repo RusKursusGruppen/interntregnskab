@@ -80,3 +80,8 @@ def chpasswd_do():
         "login.chpasswd_form",
         **error
     )
+
+
+def logout():
+    local.session["uid"] = None
+    redirect("login.chpasswd_form")

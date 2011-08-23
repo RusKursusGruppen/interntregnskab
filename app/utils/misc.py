@@ -14,17 +14,20 @@ import app.widget
 from app.config.generated import config
 
 path = {}
-path["root"] = os.path.join(os.path.dirname(__file__), "..")
-path["static"] = os.path.join(path["root"], "../static")
-path["templates"] = os.path.join(path["root"], "../templates")
+path["static"] = "static"
+path["templates"] = "templates"
 
 local = werkzeug.Local()
 local_manager = werkzeug.LocalManager([local])
 application = local("application")
 
-db_ = couchdb.Server(config["couchdb_server_url"])[config["couchdb_db"]]
+_db = None
 def db():
-    return db_
+    global _db
+    if _db is None:
+        _db = couchdb.Server(config["couchdb_server_url"])[config["couchdb_db"]]
+    return _db
+
 
 template_lookup = mako.lookup.TemplateLookup(
     directories=[path["templates"]],

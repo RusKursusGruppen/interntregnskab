@@ -1,11 +1,4 @@
-#!/usr/bin/python2
 # -*- coding: utf-8 -*-
-import sys
-import os
-sys.path[0] = os.path.join(os.path.dirname(__file__), "..")
-sys.path.insert(0, os.path.join(sys.path[0], "3rd-party"))
-os.chdir(sys.path[1])
-
 import app.model.user as user
 
 from app.config.generated import config

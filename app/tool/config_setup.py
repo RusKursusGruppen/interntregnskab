@@ -1,10 +1,10 @@
-#!/usr/bin/python2
 # -*- coding: utf-8 -*-
+_toolname = "config"
+_tooldesc = "Interactively generates the project config files."
+
 import os.path
 import sys
 import grp
-
-sys.path[0] = os.path.join(os.path.dirname(__file__), "..")
 
 def user_query(itemname, converter, defaultrep, default=None):
     while True:
@@ -36,7 +36,7 @@ def prompt_update_config():
     return config
 
 def write_config(config):
-    filename = os.path.join(os.path.dirname(__file__), "..", "app", "config", "generated.py")
+    filename = os.path.join("app", "config", "generated.py")
     fhandle = open(filename, "w")
     fhandle.write(
         "# -*- coding: utf-8 -*-\n"
@@ -45,6 +45,6 @@ def write_config(config):
       + "config.update(" + repr(config) + ")"
     )
 
-if __name__ == "__main__":
+def main():
     config = prompt_update_config()
     write_config(config)

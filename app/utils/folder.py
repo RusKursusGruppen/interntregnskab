@@ -1,6 +1,18 @@
 # -*- coding: utf-8 -*-
 import os
-
+from os.path import join, isfile, isdir
+def get_nodes(path):
+    """Recursively return nodes paths in a directory"""
+    nodes = []
+    for entry in os.listdir(join(*path)):
+        entry = path + [entry]
+        entrystring = join(*entry)
+        if isfile(entrystring):
+            nodes += [entry]
+        elif isdir(entrystring):
+            nodes += get_nodes(entry)
+    nodes += [path]
+    return nodes
 
 def get_files(directory):
     """Recursively return file paths in a directory"""

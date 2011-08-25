@@ -25,7 +25,8 @@ _db = None
 def db():
     global _db
     if _db is None:
-        _db = couchdbkit.Server(config["couchdb_server_url"])[config["couchdb_db"]]
+        server = couchdbkit.Server(config["couchdb_server_url"])
+        _db = server.get_or_create_db(config["couchdb_db"])
     return _db
 
 

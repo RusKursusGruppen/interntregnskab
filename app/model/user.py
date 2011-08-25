@@ -7,14 +7,14 @@ from hashlib import sha224
 def authenticate(username, password):
     password = sha224(password).hexdigest()
     for x in db().view("user/auth", key=[username, password]):
-        return x.id
+        return x["id"]
 
 def haschangedpasswd(uid):
     return db()[uid]["has_changed_password"]
 
 def add(username, group, password):
     password = sha224(password).hexdigest()
-    db().save({
+    db().save_doc({
         "type": "user",
         "group": group,
         "password": password,
@@ -29,7 +29,7 @@ def changepassword(uid, password):
     user = db()[uid]
     user["has_changed_password"] = True
     user["password"] = password
-    db().save(user)
+    db().save_doc(user)
     
 def getname(uid):
     name = local.cache.get(("uid-name",uid))
@@ -46,5 +46,4 @@ def getmembers(uid):
     q = db().view("user/group", startkey=[group], endkey=[group+u"\fff0"], include_docs=True)
 
     for x in q:
-        doc = x.doc
-        yield doc.id, doc["username"]
+        yield x["id"], x["doc"]["username"]

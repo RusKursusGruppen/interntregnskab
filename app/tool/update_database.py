@@ -2,7 +2,7 @@
 _toolname = "push_views"
 _tooldesc = "Pushes whatever CouchDB javascript views it can find in ./views"
 
-import couchdb
+import couchdbkit
 from itertools import groupby
 
 from app.config.generated import config

@@ -16,7 +16,7 @@ def add(uid, group, description, amount, creditor, debtors):
         if not debtor[0] in members:
             raise PermissionError()
 
-    db().save({
+    db().save_doc({
         "type": "entry",
         "amount": amount,
         "creditor": creditor,
@@ -37,7 +37,7 @@ def delete(uid, id_):
     
     entry["deletedby"] = uid
 
-    db().save(entry)
+    db().save_doc(entry)
 
 def getbalances(uid):
     group = user.getgroup(uid)
@@ -50,7 +50,7 @@ def getbalances(uid):
     )
     
     for x in q:
-        yield user.getname(x.key[1]), x.value
+        yield user.getname(x["key"][1]), x["value"]
 
 def getgroup(uid):
     group = user.getgroup(uid)
@@ -62,7 +62,7 @@ def getgroup(uid):
     )
 
     for x in q:
-        doc = x.doc
+        doc = x["doc"]
         username = user.getname(doc["uid"])
         deletedby = doc.get("deletedby")
         deletedby = deletedby and user.getname(deletedby)
@@ -73,7 +73,7 @@ def getgroup(uid):
         creditor = user.getname(doc["creditor"])
 
         yield {
-            "id": doc.id,
+            "id": doc["_id"],
             "amount": doc["amount"],
             "creditor": creditor,
             "date": dateutils.fromtuple(doc["date"]),

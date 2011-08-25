@@ -8,7 +8,7 @@ import werkzeug.routing
 import werkzeug.utils
 import mako.lookup
 
-import couchdb
+import couchdbkit
 
 import app.widget
 from app.config.generated import config
@@ -25,7 +25,7 @@ _db = None
 def db():
     global _db
     if _db is None:
-        _db = couchdb.Server(config["couchdb_server_url"])[config["couchdb_db"]]
+        _db = couchdbkit.Server(config["couchdb_server_url"])[config["couchdb_db"]]
     return _db
 
 
